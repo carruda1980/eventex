@@ -1,5 +1,5 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def subscribe(request):
-    return HttpResponse('Python e django são top!')
+    return render(request, 'subscriptions/subscription_form.html')
