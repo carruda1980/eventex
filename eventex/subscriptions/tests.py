@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from eventex.subscriptions.forms import SubscriptionForm
 
 class SubscriptionsTest(TestCase):
     def setUp(self):
@@ -16,7 +16,21 @@ class SubscriptionsTest(TestCase):
     def test_html(self):
         """Subscribe form must contain html tags"""
         self.assertContains(self.resp, '<form')
-        self.assertContains(self.resp, '<input', 5)
+        self.assertContains(self.resp, '<input', 6)
         self.assertContains(self.resp, 'type="text"', 3)
         self.assertContains(self.resp, 'type="email"', 1)
         self.assertContains(self.resp, 'type="submit')
+
+    def test_csrf(self):
+        """Html must contain csrf_token"""
+        self.assertContains(self.resp, 'csrfmiddlewaretoken')
+
+    def test_has_form(self):
+        """Context must have subscription form"""
+        form = self.resp.context['form']
+        self.assertIsInstance(form, SubscriptionForm)
+
+    def test_form_has_fields(self):
+        """Form must have 4 fields"""
+        form = self.resp.context['form']
+        self.assertSequenceEqual(['name', 'cpf', 'email', 'phone'], list(form.fields))
