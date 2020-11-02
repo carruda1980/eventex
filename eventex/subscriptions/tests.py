@@ -34,3 +34,11 @@ class SubscriptionsTest(TestCase):
         """Form must have 4 fields"""
         form = self.resp.context['form']
         self.assertSequenceEqual(['name', 'cpf', 'email', 'phone'], list(form.fields))
+
+
+class SubscribePostTest(TestCase):
+    def test_post(self):
+        """Valid POST should redirect to /inscricao/"""
+        data = dict(name="Carlos Arruda", cpf="12345678901", email="caugustogarruda@gmail.com", phone="31-996840810")
+        response = self.client.post('/inscricao/', data)
+        self.assertEqual(302, response.status_code)
