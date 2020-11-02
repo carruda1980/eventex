@@ -7,10 +7,10 @@ from eventex.subscriptions.forms import SubscriptionForm
 
 def subscribe(request):
     if request.method == 'POST':
-        mail.send_mail('Subject',
+        mail.send_mail('Confirmação de inscrição',
                        'Message',
-                       'sender@email.com',
-                       ['visitor@email.com'])
+                       'contato@eventex.com.br',
+                       ['contato@eventex.com.br', 'caugustogarruda@gmail.com'])
         return HttpResponseRedirect('/inscricao/')
     else:
         context = {'form': SubscriptionForm()}

@@ -41,6 +41,7 @@ class SubscribePostTest(TestCase):
     def setUp(self):
         self.data = dict(name="Carlos Arruda", cpf="12345678901", email="caugustogarruda@gmail.com", phone="31-996840810")
         self.resp = self.client.post('/inscricao/', self.data)
+        self.email = mail.outbox[0]
 
     def test_post(self):
         """Valid POST should redirect to /inscricao/"""
@@ -49,3 +50,20 @@ class SubscribePostTest(TestCase):
     def test_send_subscribe_email(self):
         """Should send email to visitor"""
         self.assertEqual(1, len(mail.outbox))
+
+    def test_subscribe_email_subject(self):
+        """Subject should be 'Confirmação de inscrição'"""
+        expect = 'Confirmação de inscrição'
+
+        self.assertEqual(expect, self.email.subject)
+
+    def test_subscribe_email_sender(self):
+        """Sender should be 'contato@eventex.com.br'"""
+        expect = 'contato@eventex.com.br'
+
+        self.assertEqual(expect, self.email.from_email)
+
+    def test_subscribe_email_to(self):
+        expect = ['contato@eventex.com.br', 'caugustogarruda@gmail.com']
+
+        self.assertEqual(expect, self.email.to)
