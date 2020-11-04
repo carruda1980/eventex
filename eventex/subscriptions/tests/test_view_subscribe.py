@@ -2,7 +2,8 @@ from django.core import mail
 from django.test import TestCase
 from eventex.subscriptions.forms import SubscriptionForm
 
-class SubscriptionsTest(TestCase):
+
+class SubscriptionsGet(TestCase):
     def setUp(self):
         self.resp = self.client.get('/inscricao/')
 
@@ -37,7 +38,7 @@ class SubscriptionsTest(TestCase):
         self.assertSequenceEqual(['name', 'cpf', 'email', 'phone'], list(form.fields))
 
 
-class SubscribePostTest(TestCase):
+class SubscribePostValid(TestCase):
     def setUp(self):
         self.data = dict(name="Carlos Arruda", cpf="12345678901", email="caugustogarruda@gmail.com", phone="31-996840810")
         self.resp = self.client.post('/inscricao/', self.data)
@@ -59,12 +60,12 @@ class SubscribePostTest(TestCase):
 
     def test_subscribe_email_sender(self):
         """Sender should be 'contato@eventex.com.br'"""
-        expect = 'contato@eventex.com.br'
+        expect = 'caugustogarruda@gmail.com'
 
         self.assertEqual(expect, self.email.from_email)
 
     def test_subscribe_email_to(self):
-        expect = ['contato@eventex.com.br', 'caugustogarruda@gmail.com']
+        expect = ['caugustogarruda@gmail.com', 'caugustogarruda@gmail.com']
 
         self.assertEqual(expect, self.email.to)
 
@@ -75,7 +76,7 @@ class SubscribePostTest(TestCase):
         self.assertIn('31-996840810', self.email.body)
 
 
-class SubscriptionInvalidPost(TestCase):
+class SubscriptionPostInvalid(TestCase):
     def setUp(self):
         self.resp = self.client.post('/inscricao/', {})
 
