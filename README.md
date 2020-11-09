@@ -13,7 +13,7 @@ git clone https://github.com/caugustoarruda/eventex.git wttd
 cd wttd
 python -m virtualenv venv
 source venv/bin/activate
-pip install -r requirements
+pip install -r requirements-dev.txt
 cp contribu/env-sample .env
 python manage.py test
 </code>

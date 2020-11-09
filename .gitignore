@@ -8,3 +8,4 @@ __pycache__
 *pyc
 staticfiles
 contrib/
+.ipynb_checkpoints/
