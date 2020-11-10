@@ -102,6 +102,7 @@ class SubscriptionPostInvalid(TestCase):
     def test_dont_save_subscription(self):
         self.assertFalse(Subscription.objects.exists())
 
+
 class SubscribeSuccessMessage(TestCase):
     def test_message(self):
         data = dict(name='Carlos Arruda', cpf='12345678901',
