@@ -37,9 +37,11 @@ def new(request):
     return render(request, 'subscriptions/subscription_form.html', context)
 
 
-def detail(request):
-    from django.http import HttpResponse
-    return HttpResponse()
+def detail(request, pk):
+    subscription = Subscription.objects.get(pk=pk)
+    return render(request, 'subscriptions/subscription_detail.html',
+                  {'subscription': subscription})
+
 
 def _send_email(subject, from_, to, template_name, context):
     body = render_to_string(template_name, context)
