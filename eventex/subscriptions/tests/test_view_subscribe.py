@@ -41,13 +41,13 @@ class SubscriptionsGet(TestCase):
 
 class SubscribePostValid(TestCase):
     def setUp(self):
-        self.data = dict(name="Carlos Arruda", cpf="12345678901", email="caugustogarruda@gmail.com", phone="31-996840810")
+        self.data = dict(name="Carlos Augusto G Arruda", cpf="12345678901", email="caugustogarruda@gmail.com", phone="31-996840810")
         self.resp = self.client.post('/inscricao/', self.data)
         self.email = mail.outbox[0]
 
     def test_post(self):
         """Valid POST should redirect to /inscricao/"""
-        self.assertEqual(302, self.resp.status_code)
+        self.assertRedirects(self.resp, '/inscricao/1/')
 
     def test_send_subscribe_email(self):
         """Should send email to visitor"""
@@ -74,7 +74,7 @@ class SubscribePostValid(TestCase):
         self.assertEqual(expect, self.email.to)
 
     def test_subscribe_email_body(self):
-        self.assertIn('Carlos Arruda', self.email.body)
+        self.assertIn('Carlos Augusto G Arruda', self.email.body)
         self.assertIn('12345678901', self.email.body)
         self.assertIn('caugustogarruda@gmail.com', self.email.body)
         self.assertIn('31-996840810', self.email.body)
@@ -102,11 +102,3 @@ class SubscriptionPostInvalid(TestCase):
     def test_dont_save_subscription(self):
         self.assertFalse(Subscription.objects.exists())
 
-
-class SubscribeSuccessMessage(TestCase):
-    def test_message(self):
-        data = dict(name='Carlos Arruda', cpf='12345678901',
-                    email='caugustogarruda@gmail.com', phone='31-996840810')
-
-        response = self.client.post('/inscricao/', data, follow=True)
-        self.assertContains(response, 'Inscrição realizada com sucesso!')

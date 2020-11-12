@@ -23,20 +23,23 @@ def create(request):
         return render(request, 'subscriptions/subscription_form.html',
                       {'form': form})
 
+    subscription = Subscription.objects.create(**form.cleaned_data)
+
     _send_email('Confirmação de inscrição', settings.DEFAULT_FROM_EMAIL,
-                form.cleaned_data['email'], 'subscriptions/subscription_email.txt',
+                subscription.email, 'subscriptions/subscription_email.txt',
                 form.cleaned_data)
 
-    Subscription.objects.create(**form.cleaned_data)
-
-    messages.success(request, 'Inscrição realizada com sucesso!')
-    return HttpResponseRedirect('/inscricao/')
+    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.pk))
 
 
 def new(request):
     context = {'form': SubscriptionForm()}
     return render(request, 'subscriptions/subscription_form.html', context)
 
+
+def detail(request):
+    from django.http import HttpResponse
+    return HttpResponse()
 
 def _send_email(subject, from_, to, template_name, context):
     body = render_to_string(template_name, context)
