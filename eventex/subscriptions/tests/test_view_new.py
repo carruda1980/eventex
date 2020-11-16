@@ -5,7 +5,7 @@ from eventex.subscriptions.forms import SubscriptionForm
 from eventex.subscriptions.models import Subscription
 
 
-class SubscriptionsGet(TestCase):
+class SubscriptionsNewGet(TestCase):
     def setUp(self):
         self.resp = self.client.get(r('subscriptions:new'))
 
@@ -40,7 +40,7 @@ class SubscriptionsGet(TestCase):
         self.assertSequenceEqual(['name', 'cpf', 'email', 'phone'], list(form.fields))
 
 
-class SubscribePostValid(TestCase):
+class SubscriptionsNewPostValid(TestCase):
     def setUp(self):
         self.data = dict(name="Carlos Augusto G Arruda", cpf="12345678901", email="caugustogarruda@gmail.com", phone="31-996840810")
         self.resp = self.client.post(r('subscriptions:new'), self.data)
@@ -81,7 +81,7 @@ class SubscribePostValid(TestCase):
         self.assertIn('31-996840810', self.email.body)
 
 
-class SubscriptionPostInvalid(TestCase):
+class SubscriptionsNewPostInvalid(TestCase):
     def setUp(self):
         self.resp = self.client.post(r('subscriptions:new'), {})
 

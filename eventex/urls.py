@@ -19,6 +19,6 @@ from eventex.core.views import home
 
 urlpatterns = [
     path('', home, name='home'),
-    path('', include('eventex.subscriptions.urls')),
+    path('inscricao/', include('eventex.subscriptions.urls')),
     path('admin/', admin.site.urls),
 ]
