@@ -4,11 +4,13 @@ from django.utils.timezone import now
 from eventex.subscriptions.models import Subscription
 
 
-class SubscriptionAdmin(admin.ModelAdmin):
+class SubscriptionModelAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'phone', 'created_at', 'subscribed_today', 'paid')
     date_hierarchy = 'created_at'
     search_fields = ('name', 'email', 'phone', 'created_at')
     list_filter = ('paid', 'created_at')
+
+    actions = ['mark_as_paid']
 
     def subscribed_today(self, obj):
         return obj.created_at == now().date()
@@ -17,5 +19,5 @@ class SubscriptionAdmin(admin.ModelAdmin):
     subscribed_today.boolean = True
 
 
-admin.site.register(Subscription, SubscriptionAdmin)
+admin.site.register(Subscription, SubscriptionModelAdmin)
 
