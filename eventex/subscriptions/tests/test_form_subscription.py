@@ -23,9 +23,14 @@ class SubscriptionFormTest(TestCase):
 
         self.assertListEqual(['cpf'], list(form.errors))
 
+    def test_name_must_be_capitalized(self):
+        """Name must be capitalized"""
+        form = self.make_cpf_validate(name="CARLOS arruda")
+        self.assertEqual('Carlos Arruda', form.cleaned_data['name'])
+
     def make_cpf_validate(self, **kwargs):
         valid = dict(
-            name='Carlos Arruda', cpf='abcd5678901',
+            name='Carlos Arruda', cpf='12345678901',
             email='caugustogarruda@gmail.com', phone='31996840810'
         )
         data = dict(valid,  **kwargs)
