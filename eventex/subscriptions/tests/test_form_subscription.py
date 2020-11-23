@@ -38,6 +38,10 @@ class SubscriptionFormTest(TestCase):
         form = self.make_validate(phone='')
         self.assertFalse(form.errors)
 
+    def test_must_inform_email_or_phone(self):
+        form = self.make_validate(email='', phone='')
+        self.assertListEqual(['__all__'], list(form.errors))
+
     def make_validate(self, **kwargs):
         valid = dict(
             name='Carlos Arruda', cpf='12345678901',

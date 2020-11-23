@@ -21,3 +21,9 @@ class SubscriptionForm(forms.Form):
         words = [w.capitalize() for w in name.split()]
         return ' '.join(words)
 
+    def clean(self):
+        if not self.cleaned_data.get('email') and not self.cleaned_data.get('phone'):
+            raise ValidationError('Informe o seu e-mail ou seu telefone')
+
+        return self.cleaned_data
+
